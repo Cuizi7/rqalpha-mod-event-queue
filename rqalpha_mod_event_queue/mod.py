@@ -16,10 +16,13 @@ class EventQueueMod(AbstractMod):
         self._mod_config = mod_config
         if self._env.config.base.run_type == RUN_TYPE.BACKTEST:
             return
-        self._env.event_bus = QueuedEventBus(self._env.event_bus, real_time=True)
+        self._env.event_bus = QueuedEventBus(self._env.event_bus)
         self._env.event_bus.start()
 
     def tear_down(self, code, exception=None):
         if self._env.config.base.run_type == RUN_TYPE.BACKTEST:
             return
-        self._env.event_bus.stop()
+
+        if isinstance(self._env.event_bus, QueuedEventBus):
+            self._env.event_bus.stop()
+

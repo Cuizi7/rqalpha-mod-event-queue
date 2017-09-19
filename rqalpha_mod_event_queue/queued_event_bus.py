@@ -7,7 +7,10 @@ except ImportError:
 
 from threading import Thread
 
-from rqalpha.events import EventBus
+from rqalpha.events import EventBus, EVENT
+
+
+EVENT.TIMER = 'timer'
 
 
 class QueuedEventBus(EventBus):
@@ -20,6 +23,13 @@ class QueuedEventBus(EventBus):
 
         if event_bus:
             self._listeners = event_bus._listeners
+
+    DISTINCT_EVENTS = [
+        EVENT.TICK,
+        EVENT.BAR,
+        EVENT.DO_PERSIST,
+        EVENT.TIMER,
+    ]
 
     def publish_event(self, event):
         self._event_queue.put(event)
@@ -39,16 +49,16 @@ class QueuedEventBus(EventBus):
             last_pos = {}
 
             for i, e in enumerate(events):
-                last_pos[e.event_type] = i
+                if e.event_type in self.DISTINCT_EVENTS:
+                    last_pos[e.event_type] = i
 
             for i, e in enumerate(events):
-                if i != last_pos[e.event_type]:
+                if e.event_type in self.DISTINCT_EVENTS and i != last_pos[e.event_type]:
                     continue
                 for l in self._listeners[e.event_type]:
                     # 如果返回 True ，那么消息不再传递下去
                     if l(e):
                         break
-
     def start(self):
         self._running = True
         self._thread.start()
