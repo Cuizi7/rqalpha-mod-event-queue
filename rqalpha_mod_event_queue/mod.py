@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from rqalpha.interface import AbstractMod
 from rqalpha.const import RUN_TYPE
 
