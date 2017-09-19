@@ -1,0 +1,11 @@
+*~
+.DS_Store
+*.iml
+*.pyc
+dist
+*.ipynb
+*.log
+*.con
+.coverage
+.idea
+*.egg-info
