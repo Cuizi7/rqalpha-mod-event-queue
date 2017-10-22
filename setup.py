@@ -6,7 +6,7 @@ from pip.req import parse_requirements
 
 setup(
     name='rqalpha-mod-event-queue',
-    version='0.0.4',
+    version='0.0.5',
     description='A mod for RQAlpha to replace its default event bus with a queued event bus.',
     packages=find_packages(exclude=[]),
     author='cuizi7',
