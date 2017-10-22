@@ -3,7 +3,7 @@
 try:
     from queue import Queue, Empty
 except ImportError:
-    from Queue import Queue, Emppy
+    from Queue import Queue, Empty
 
 from threading import Thread
 
@@ -59,6 +59,7 @@ class QueuedEventBus(EventBus):
                     # 如果返回 True ，那么消息不再传递下去
                     if l(e):
                         break
+
     def start(self):
         self._running = True
         self._thread.start()
